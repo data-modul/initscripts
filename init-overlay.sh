@@ -24,19 +24,19 @@ falltoshell() {
 createExt3() {
 	
 	if [ -z $OVERLAY_DEV ]; then
-		echo "!--------------------------------------------! \n\
-!-- The \"reinitoverlay\" parameter was given -! \n\
-!--- But the \"overlayrw\" value was not set --!"
+		echo -e "!-----------------------------------------------!"
+		echo -e "!-- The \"reinitoverlay\" parameter was given --!"
+		echo -e "!--- But the \"overlayrw\" value was not set ---!"
 		falltoshell
 	else
-		echo -e "!--------------------------------------------! \n\
-!--- The $OVERLAY_DEV will be reformated ----! \n\
-!--------------------------------------------!"
+		echo -e "!--------------------------------------------!"
+		echo e3 "!--- The $OVERLAY_DEV will be reformated --!"
+		echo -e "!--------------------------------------------!"
 		mkfs.ext3 -F $OVERLAY_DEV
 
-		echo -e "!--------------------------------------------! \n\
-!------ Recreation of $OVERLAY_DEV done -----! \n\
-!--------------------------------------------!"
+		echo -e "!--------------------------------------------!"
+		echo -e "!----- Recreation of $OVERLAY_DEV done ----!"
+		echo -e "!--------------------------------------------!"
 		
 		mount_root
 	fi
