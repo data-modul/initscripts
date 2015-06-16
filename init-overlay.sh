@@ -4,6 +4,7 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 ROOTFS='/rootfs'
 ROOT_DEV=''
 OVERLAY_DEV=''
+VERSION_FILE='/scriptversion'
 
 init_setup() {
 	mkdir -p /proc
@@ -127,6 +128,13 @@ parse_cmd() {
 		esac
 	done
 }
+
+#Print the initscript version"
+if [ -e $VERSION_FILE ]; then
+	echo "Init version file is missing!"
+else
+	cat $VERSION_FILE
+fi
 
 init_setup
 [ -z "$CONSOLE" ] && CONSOLE="/dev/console"
