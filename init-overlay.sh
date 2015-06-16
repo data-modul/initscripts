@@ -28,6 +28,9 @@ mount_root() {
 		mkdir -p /rootfs.rw
 		mount -o ro $ROOT_DEV /rootfs.ro/
 		mount $OVERLAY_DEV /rootfs.rw/
+		
+		[ ! -d /rootfs.rw/datadir ] && mkdir /rootfs.rw/datadir
+		[ ! -d /rootfs.rw/workdir ] && 	mkdir /rootfs.rw/workdir
 
 		mount -t overlay overlay -olowerdir=/rootfs.ro,upperdir=/rootfs.rw/datadir,workdir=/rootfs.rw/workdir $ROOTFS
 		mkdir -p $ROOTFS/rootfs.ro $ROOTFS/rootfs.rw
