@@ -131,9 +131,9 @@ parse_cmd() {
 
 #Print the initscript version"
 if [ -e $VERSION_FILE ]; then
-	echo "Init version file is missing!"
-else
 	cat $VERSION_FILE
+else
+	echo "Init version file is missing!"
 fi
 
 init_setup
