@@ -51,9 +51,9 @@ parse_cmd() {
 		case $arg in
 			debugshell*)
 				shell='1' ;;
-			root*)
+			root=*)
 				ROOT_DEV=$optarg ;;
-			overlayrw*)
+			overlayrw=*)
 				OVERLAY_DEV=$optarg ;;
 		esac
 	done
