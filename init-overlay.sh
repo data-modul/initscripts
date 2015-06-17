@@ -21,7 +21,7 @@ init_setup() {
 	mount -t devtmpfs none /dev
 }
 
-falltoshell() {
+fall_to_shell() {
         printout "Fall to shell!"
 	exec sh
 }
@@ -33,7 +33,7 @@ createExt3() {
 		printout "!-- The \"reinitoverlay\" parameter was given --!"
 		printout "!--- But the \"overlayrw\" value was not set ---!"
 		printout "!-----------------------------------------------!"
-		falltoshell
+		fall_to_shell
 	else
 		printout "!--------------------------------------------!"
 		printout "!--- The $OVERLAY_DEV will be reformated --!"
@@ -164,7 +164,7 @@ printout "ROOT_DEV: $ROOT_DEV"
 printout "OVERLAY_DEV: $OVERLAY_DEV"
 
 if [ -n "$shell" ]; then
-	falltoshell
+	fall_to_shell
 elif [ -n "$reinit" ]; then
 	createExt3
 else
