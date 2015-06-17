@@ -72,6 +72,7 @@ mount_root() {
 	if [ -z $OVERLAY_DEV ]; then
 		RO_MOUNT=$ROOTFS
 	else
+		mkdir -p /rootfs.ro
 		RO_MOUNT="/rootfs.ro/"
 	fi
 
@@ -85,7 +86,6 @@ mount_root() {
 
 	if [ ! -z $OVERLAY_DEV ]; then
 		printout "Mount overlay and root"
-		mkdir -p /rootfs.ro
 		mkdir -p /rootfs.rw
 
 		result=-1
