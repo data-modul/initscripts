@@ -48,6 +48,15 @@ createExt3() {
 	fi
 }
 
+root_switch() {
+	mount -n --move /proc $ROOTFS/proc
+	mount -n --move /sys $ROOTFS/sys
+	mount -n --move /dev $ROOTFS/dev
+
+	cd $ROOTFS
+	exec switch_root -c /dev/console $ROOTFS /sbin/init
+}
+
 mount_root() {
 	printout "Go init!"
 
@@ -113,12 +122,7 @@ mount_root() {
 		mount --move /rootfs.rw $ROOTFS/mnt/rootfs.rw
 	fi
 
-	mount -n --move /proc $ROOTFS/proc
-	mount -n --move /sys $ROOTFS/sys
-	mount -n --move /dev $ROOTFS/dev
-
-	cd $ROOTFS
-	exec switch_root -c /dev/console $ROOTFS /sbin/init
+	root_switch
 }
 
 parse_cmd() {
