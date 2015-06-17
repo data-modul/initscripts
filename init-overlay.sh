@@ -27,10 +27,11 @@ createExt3() {
 		echo -e "!-----------------------------------------------!"
 		echo -e "!-- The \"reinitoverlay\" parameter was given --!"
 		echo -e "!--- But the \"overlayrw\" value was not set ---!"
+		echo -e "!-----------------------------------------------!"
 		falltoshell
 	else
 		echo -e "!--------------------------------------------!"
-		echo e3 "!--- The $OVERLAY_DEV will be reformated --!"
+		echo -e "!--- The $OVERLAY_DEV will be reformated --!"
 		echo -e "!--------------------------------------------!"
 		mkfs.ext3 -F $OVERLAY_DEV
 
