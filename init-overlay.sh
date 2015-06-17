@@ -102,9 +102,9 @@ mount_root() {
 			falltoshell
 		fi
 
-		mkdir -p $ROOTFS/rootfs.ro $ROOTFS/rootfs.rw
-		mount --move /rootfs.ro $ROOTFS/rootfs.ro
-		mount --move /rootfs.rw $ROOTFS/rootfs.rw
+		mkdir -p $ROOTFS/mnt/rootfs.ro $ROOTFS/mnt/rootfs.rw
+		mount --move /rootfs.ro $ROOTFS/mnt/rootfs.ro
+		mount --move /rootfs.rw $ROOTFS/mnt/rootfs.rw
 	fi
 
 	mount -n --move /proc $ROOTFS/proc
