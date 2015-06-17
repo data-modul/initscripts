@@ -57,6 +57,11 @@ root_switch() {
 	exec switch_root -c /dev/console $ROOTFS /sbin/init
 }
 
+overlay_error_rootswitch() {
+	mount -n --move /rootfs.ro $ROOTFS
+	root_switch()
+}
+
 mount_root() {
 	printout "Go init!"
 
@@ -98,11 +103,11 @@ mount_root() {
 				result=$?
 				if [ 0 != $result ]; then
 					printout "Error mounting overlayfs"
-					falltoshell
+					overlay_error_rootswitch
 				fi
 			else
 				printout "Error during e2fsck on $OVERLAY_DEV"
-				falltoshell
+				overlay_error_rootswitch
 			fi
 		fi
 
@@ -114,7 +119,7 @@ mount_root() {
 		result=$?
 		if [ 0 != $result ]; then
 			printout "Error mounting overlayfs!"
-			falltoshell
+			overlay_error_rootswitch
 		fi
 
 		mkdir -p $ROOTFS/mnt/rootfs.ro $ROOTFS/mnt/rootfs.rw
