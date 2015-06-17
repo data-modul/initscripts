@@ -16,6 +16,18 @@ init_setup() {
 	mount -t devtmpfs none /dev
 }
 
+falltoshell() {
+        echo Fall to shell!
+	exec sh
+}
+
+createExt3() {
+	echo !The $OVERLAY_DEV partition will be recreated!
+	mkfs.ext3 -F $OVERLAY_DEV
+	exit 0
+}
+
+
 mount_root() {
 	mkdir -p $ROOTFS
 
