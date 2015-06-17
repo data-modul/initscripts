@@ -29,6 +29,7 @@ createExt3() {
 
 
 mount_root() {
+	declare -i result=-1
 	mkdir -p $ROOTFS
 
 	if [ -z $OVERLAY_DEV ]; then
@@ -39,8 +40,35 @@ mount_root() {
 		mkdir -p /rootfs.ro
 		mkdir -p /rootfs.rw
 		mount -o ro $ROOT_DEV /rootfs.ro/
+		result=$?
+		if [ 0 != $result ]; then
+			echo Error mounting root partition
+			falltoshell
+		fi
+
+		result=-1
 		mount $OVERLAY_DEV /rootfs.rw/
-		
+		result=$?
+		if [ 0 != $result ]; then
+			echo Run e2fsck on $OVERLAY_DEV
+			result=-1
+			e2fsck $OVERLAY_DEV -y
+			result=$?
+			if [ 3 -gt $result ]; then
+				echo Second try mounting $OVERLAY_DEV
+				result=-1
+				mount $OVERLAY_DEV /rootfs.rw/
+				result=$?
+				if [ 0 != $result ]; then
+					echo Error mounting overlayfs
+					falltoshell
+				fi
+			else
+				echo Error during e2fsck on $OVERLAY_DEV
+				falltoshell
+			fi
+		fi
+
 		[ ! -d /rootfs.rw/datadir ] && mkdir /rootfs.rw/datadir
 		[ ! -d /rootfs.rw/workdir ] && 	mkdir /rootfs.rw/workdir
 
