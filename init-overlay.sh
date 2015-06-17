@@ -44,7 +44,9 @@ createExt3() {
 }
 
 mount_root() {
-	declare -i result=-1
+	echo "Go init!"
+
+	result=-1
 	mkdir -p $ROOTFS
 
 	if [ -z $OVERLAY_DEV ]; then
