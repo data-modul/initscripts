@@ -89,7 +89,14 @@ mount_root() {
 		[ ! -d /rootfs.rw/datadir ] && mkdir /rootfs.rw/datadir
 		[ ! -d /rootfs.rw/workdir ] && 	mkdir /rootfs.rw/workdir
 
+		result=-1
 		mount -t overlay overlay -olowerdir=/rootfs.ro,upperdir=/rootfs.rw/datadir,workdir=/rootfs.rw/workdir $ROOTFS
+		result=$?
+		if [ 0 != $result ]; then
+			echo Error mounting overlayfs!
+			falltoshell
+		fi
+
 		mkdir -p $ROOTFS/rootfs.ro $ROOTFS/rootfs.rw
 		mount --move /rootfs.ro $ROOTFS/rootfs.ro
 		mount --move /rootfs.rw $ROOTFS/rootfs.rw
