@@ -59,7 +59,7 @@ root_switch() {
 
 overlay_error_rootswitch() {
 	mount -n --move /rootfs.ro $ROOTFS
-	root_switch()
+	root_switch
 }
 
 mount_root() {
