@@ -95,6 +95,9 @@ mount_root() {
 	mount -n --move /proc $ROOTFS/proc
 	mount -n --move /sys $ROOTFS/sys
 	mount -n --move /dev $ROOTFS/dev
+
+	cd $ROOTFS
+	exec switch_root -c /dev/console $ROOTFS /sbin/init
 }
 
 parse_cmd() {
@@ -122,14 +125,10 @@ echo "ROOT_DEV: $ROOT_DEV"
 echo "OVERLAY_DEV: $OVERLAY_DEV"
 
 if [ -n "$shell" ]; then
-	echo "Execute shell"
-	exec sh
+	falltoshell
 elif [ -n "$reinit" ]; then
 	createExt3
 else
-	echo "Go init"
 	mount_root
-	cd $ROOTFS
-	exec switch_root -c /dev/console $ROOTFS /sbin/init
 fi
 
