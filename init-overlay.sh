@@ -95,6 +95,8 @@ parse_cmd() {
 				ROOT_DEV=$optarg ;;
 			overlayrw=*)
 				OVERLAY_DEV=$optarg ;;
+			reinitoverlay*)
+				reinit='1' ;;
 		esac
 	done
 }
@@ -105,14 +107,15 @@ parse_cmd
 echo "ROOT_DEV: $ROOT_DEV"
 echo "OVERLAY_DEV: $OVERLAY_DEV"
 
-echo "Check for shell"
-if [ ! -n "$shell" ]; then
+if [ -n "$shell" ]; then
+	echo "Execute shell"
+	exec sh
+elif [ -n "$reinit" ]; then
+	createExt3
+else
 	echo "Go init"
 	mount_root
 	cd $ROOTFS
 	exec switch_root -c /dev/console $ROOTFS /sbin/init
-else
-	echo "Execute shell"
-	exec sh
 fi
 
