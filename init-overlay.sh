@@ -26,7 +26,7 @@ fall_to_shell() {
 	exec sh
 }
 
-createExt3() {
+create_ext3() {
 	
 	if [ -z $OVERLAY_DEV ]; then
 		printout "!-----------------------------------------------!"
@@ -166,7 +166,7 @@ printout "OVERLAY_DEV: $OVERLAY_DEV"
 if [ -n "$shell" ]; then
 	fall_to_shell
 elif [ -n "$reinit" ]; then
-	createExt3
+	create_ext3
 else
 	mount_root
 fi
