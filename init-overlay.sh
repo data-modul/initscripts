@@ -54,19 +54,25 @@ mount_root() {
 	result=-1
 	mkdir -p $ROOTFS
 
+	RO_MOUNT=""
 	if [ -z $OVERLAY_DEV ]; then
-		printout "Mount only root"
-		mount -o ro $ROOT_DEV $ROOTFS		
+		RO_MOUNT=$ROOTFS
 	else
+		RO_MOUNT="/rootfs.ro/"
+	fi
+
+	printout "Mount root"
+	mount -o ro $ROOT_DEV $RO_MOUNT
+	result=$?
+	if [ 0 != $result ]; then
+		printout "!!! Error mountig the root partition !!!"
+		exit 0
+	fi
+
+	if [ ! -z $OVERLAY_DEV ]; then
 		printout "Mount overlay and root"
 		mkdir -p /rootfs.ro
 		mkdir -p /rootfs.rw
-		mount -o ro $ROOT_DEV /rootfs.ro/
-		result=$?
-		if [ 0 != $result ]; then
-			printout "Error mounting root partition"
-			falltoshell
-		fi
 
 		result=-1
 		mount $OVERLAY_DEV /rootfs.rw/
