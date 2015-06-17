@@ -33,10 +33,10 @@ mount_root() {
 	mkdir -p $ROOTFS
 
 	if [ -z $OVERLAY_DEV ]; then
-		echo "Mount root"
+		echo "Mount only root"
 		mount -o ro $ROOT_DEV $ROOTFS		
 	else
-		echo "Mount overlay, and move"
+		echo "Mount overlay and root"
 		mkdir -p /rootfs.ro
 		mkdir -p /rootfs.rw
 		mount -o ro $ROOT_DEV /rootfs.ro/
