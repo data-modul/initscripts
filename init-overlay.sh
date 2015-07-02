@@ -49,6 +49,11 @@ create_ext3() {
 }
 
 root_switch() {
+
+	if [ -e $VERSION_FILE ]; then
+		cp $VERSION_FILE /dev/initrdversion
+	fi
+
 	mount -n --move /proc $ROOTFS/proc
 	mount -n --move /sys $ROOTFS/sys
 	mount -n --move /dev $ROOTFS/dev
@@ -112,7 +117,7 @@ mount_root() {
 		fi
 
 		[ ! -d /rootfs.rw/datadir ] && mkdir /rootfs.rw/datadir
-		[ ! -d /rootfs.rw/workdir ] && 	mkdir /rootfs.rw/workdir
+		[ ! -d /rootfs.rw/workdir ] && mkdir /rootfs.rw/workdir
 
 		result=-1
 		mount -t overlay overlay -olowerdir=/rootfs.ro,upperdir=/rootfs.rw/datadir,workdir=/rootfs.rw/workdir $ROOTFS
