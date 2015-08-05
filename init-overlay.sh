@@ -85,8 +85,19 @@ mount_root() {
 	mount -o ro $ROOT_DEV $RO_MOUNT
 	result=$?
 	if [ 0 != $result ]; then
-		printout "!!! Error mountig the root partition !!!"
-		exit 0
+		printout "Root device not present, wait 10 sec for it!"
+		DEVICE="$(inotifywait -t 10 -e create -q /dev | sed -e 's/^.*CREATE //')"
+		SUBROOTDEV="$(echo $ROOT_DEV | sed -e 's/\/dev\///')"
+		if [ [ ! -z $DEVICE ] || [ $DEVICE != $SUBROOTDEV ] ]; then
+			printout "!!! Error mountig the root partition !!!"
+			exit 0
+		fi 
+		mount -o ro $ROOT_DEV $RO_MOUNT
+		result=$?
+		if [ 0 !== $result ]; then
+			printout "!!! Error mountig the root partition !!!"
+			exit 0
+		fi
 	fi
 
 	if [ ! -z $OVERLAY_DEV ]; then
