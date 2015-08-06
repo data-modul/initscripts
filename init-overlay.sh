@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 ROOTFS='/rootfs'
@@ -70,7 +70,7 @@ overlay_error_rootswitch() {
 mount_root() {
 	printout "Go init!"
 
-	result=-1
+	declare -i result=-1
 	mkdir -p $ROOTFS
 
 	RO_MOUNT=""
