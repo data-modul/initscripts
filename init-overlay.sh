@@ -84,7 +84,7 @@ mount_root() {
 	printout "Mount root"
 	mount -o ro $ROOT_DEV $RO_MOUNT
 	result=$?
-	if [ 0 != $result ]; then
+	if [ 0 -ne $result ]; then
 		printout "Root device not present, wait 10 sec for it!"
 		DEVICE="$(inotifywait -t 10 -e create -q /dev | sed -e 's/^.*CREATE //')"
 		SUBROOTDEV="$(echo $ROOT_DEV | sed -e 's/\/dev\///')"
@@ -94,7 +94,7 @@ mount_root() {
 		fi 
 		mount -o ro $ROOT_DEV $RO_MOUNT
 		result=$?
-		if [ 0 !== $result ]; then
+		if [ 0 -ne $result ]; then
 			printout "!!! Error mountig the root partition !!!"
 			exit 0
 		fi
@@ -107,7 +107,7 @@ mount_root() {
 		result=-1
 		mount $OVERLAY_DEV /rootfs.rw/
 		result=$?
-		if [ 0 != $result ]; then
+		if [ 0 -ne $result ]; then
 			printout "Run e2fsck on $OVERLAY_DEV"
 			result=-1
 			e2fsck $OVERLAY_DEV -y
@@ -117,7 +117,7 @@ mount_root() {
 				result=-1
 				mount $OVERLAY_DEV /rootfs.rw/
 				result=$?
-				if [ 0 != $result ]; then
+				if [ 0 -ne $result ]; then
 					printout "Error mounting overlayfs"
 					overlay_error_rootswitch
 				fi
@@ -133,7 +133,7 @@ mount_root() {
 		result=-1
 		mount -t overlay overlay -olowerdir=/rootfs.ro,upperdir=/rootfs.rw/datadir,workdir=/rootfs.rw/workdir $ROOTFS
 		result=$?
-		if [ 0 != $result ]; then
+		if [ 0 -ne $result ]; then
 			printout "Error mounting overlayfs!"
 			overlay_error_rootswitch
 		fi
