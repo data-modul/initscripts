@@ -86,7 +86,7 @@ mount_root() {
 	result=$?
 	if [ 0 -ne $result ]; then
 		printout "Root device not present, wait 10 sec for it!"
-		DEVICE="$(inotifywait -q -e create --include=$ROOT_DEV --format %f /dev)"
+		DEVICE="$(inotifywait -t 10 -q -e create --include=$ROOT_DEV --format %f /dev)"
 		SUBROOTDEV="$(echo $ROOT_DEV | sed -e 's/\/dev\///')"
 		if [ $DEVICE != $SUBROOTDEV ]; then
 			printout "!!! Error root device not present !!!"
