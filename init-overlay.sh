@@ -89,7 +89,7 @@ mount_root() {
 		DEVICE="$(inotifywait -t 10 -e create -q /dev | sed -e 's/^.*CREATE //')"
 		SUBROOTDEV="$(echo $ROOT_DEV | sed -e 's/\/dev\///')"
 		if [ [ ! -z $DEVICE ] || [ $DEVICE != $SUBROOTDEV ] ]; then
-			printout "!!! Error mountig the root partition !!!"
+			printout "!!! Error root device not present !!!"
 			exit 0
 		fi 
 		mount -o ro $ROOT_DEV $RO_MOUNT
