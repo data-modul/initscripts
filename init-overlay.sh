@@ -39,7 +39,7 @@ create_ext3() {
 		printout "!--------------------------------------------!"
 		printout "!--- The $OVERLAY_DEV will be reformated --!"
 		printout "!--------------------------------------------!"
-		mkfs.ext3 -F $OVERLAY_DEV
+		mkfs.ext4 -F $OVERLAY_DEV
 
 		printout "!--------------------------------------------!"
 		printout "!----- Recreation of $OVERLAY_DEV done ----!"
