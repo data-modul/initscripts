@@ -50,7 +50,7 @@ create_ext3() {
 }
 
 check_for_dietsplash(){
-    if [ ! -e "$ROOTFS/bin/dietsplash" ]
+    if [ ! -e "$ROOTFS/bin/dietsplash" ]; then
        NOSPLASH='true'
     fi
 }
