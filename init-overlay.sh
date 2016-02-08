@@ -5,7 +5,7 @@ ROOTFS='/rootfs'
 ROOT_DEV=''
 OVERLAY_DEV=''
 VERSION_FILE='/scriptversion'
-SPLASH=''
+NOSPLASH=''
 
 printout() {
 	echo -e "Initramfs: $1"
@@ -60,10 +60,10 @@ root_switch() {
 	mount -n --move /dev $ROOTFS/dev
 
 	cd $ROOTFS
-	if [ -z $SPLASH ]; then
-		exec switch_root -c /dev/console $ROOTFS /sbin/init
-	else
+	if [ -z $NOSPLASH ]; then
 		exec switch_root -c /dev/console $ROOTFS /bin/dietsplash
+	else
+		exec switch_root -c /dev/console $ROOTFS /sbin/init
 	fi
 }
 
@@ -165,8 +165,8 @@ parse_cmd() {
 				OVERLAY_DEV=$optarg ;;
 			reinitoverlay*)
 				reinit='1' ;;
-			dietsplash*)
-				SPLASH='true' ;;
+			nosplash*)
+				NOSPLASH='true' ;;
 		esac
 	done
 }
