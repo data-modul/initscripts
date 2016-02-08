@@ -52,6 +52,7 @@ create_ext3() {
 check_for_dietsplash(){
     if [ ! -e "$ROOTFS/bin/dietsplash" ]; then
        NOSPLASH='true'
+       printout "!!! Error: dietsplash is not installed, disable splash !!!"
     fi
 }
 
