@@ -49,6 +49,12 @@ create_ext3() {
 	fi
 }
 
+check_for_dietsplash(){
+    if [ ! -e "$ROOTFS/bin/dietsplash" ]
+       NOSPLASH='true'
+    fi
+}
+
 root_switch() {
 
 	if [ -e "$VERSION_FILE" ]; then
@@ -58,6 +64,8 @@ root_switch() {
 	mount -n --move /proc $ROOTFS/proc
 	mount -n --move /sys $ROOTFS/sys
 	mount -n --move /dev $ROOTFS/dev
+
+        check_for_dietsplash
 
 	cd $ROOTFS
 	if [ -z $NOSPLASH ]; then
