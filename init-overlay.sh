@@ -96,7 +96,7 @@ mount_root() {
 	fi
 
 	printout "Mount root"
-	mount -o ro $ROOT_DEV $RO_MOUNT
+	mount -o ro,data=ordered $ROOT_DEV $RO_MOUNT
 	result=$?
 	if [ 0 -ne $result ]; then
 		printout "Root device not present, wait 10 sec for it!"
@@ -106,7 +106,7 @@ mount_root() {
 			printout "!!! Error root device not present !!!"
 			exit 0
 		fi 
-		mount -o ro $ROOT_DEV $RO_MOUNT
+		mount -o ro,data=ordered $ROOT_DEV $RO_MOUNT
 		result=$?
 		if [ 0 -ne $result ]; then
 			printout "!!! Error mountig the root partition !!!"
@@ -119,7 +119,7 @@ mount_root() {
 		mkdir -p /rootfs.rw
 
 		result=-1
-		mount $OVERLAY_DEV /rootfs.rw/
+		mount -o data=ordered $OVERLAY_DEV /rootfs.rw/
 		result=$?
 		if [ 0 -ne $result ]; then
 			printout "Run e2fsck on $OVERLAY_DEV"
@@ -129,7 +129,7 @@ mount_root() {
 			if [ 3 -gt $result ]; then
 				printout "Second try mounting $OVERLAY_DEV"
 				result=-1
-				mount $OVERLAY_DEV /rootfs.rw/
+				mount -o data=ordered $OVERLAY_DEV /rootfs.rw/
 				result=$?
 				if [ 0 -ne $result ]; then
 					printout "Error mounting overlayfs"
